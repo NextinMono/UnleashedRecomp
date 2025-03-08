@@ -74,11 +74,14 @@ PPC_FUNC(sub_82547DF0)
 {
     if (Config::SkipIntroLogos)
     {
-        ctx.r4.u64 = 0;
-        ctx.r5.u64 = 0;
-        ctx.r6.u64 = 1;
-        ctx.r7.u64 = 0;
-        sub_825517C8(ctx, base);
+        guest_stack_var<Hedgehog::Base::CSharedString> r4("ActD_MykonosAct2");
+        guest_stack_var<Hedgehog::Base::CSharedString> r5("Stage");
+
+        ctx.r4.u64 = g_memory.MapVirtual(r4.get());
+        ctx.r5.u64 = g_memory.MapVirtual(r5.get());
+        ctx.r6.u64 = 0;
+        ctx.r7.u64 = 1;
+        sub_82546818(ctx, base);
     }
     else
     {
@@ -150,9 +153,39 @@ PPC_FUNC(sub_824C1E60)
 // Remove boost filter
 void DisableBoostFilterMidAsmHook(PPCRegister& r11)
 {
-    if (Config::DisableBoostFilter)
-    {
-        if (r11.u32 == 1)
-            r11.u32 = 0;
-    }
+    //if (Config::DisableBoostFilter)
+    //{
+            r11.u32 = 1;
+    //}
 }
+
+PPC_FUNC_IMPL(__imp__sub_82E562C8);
+PPC_FUNC(sub_82E562C8)
+{
+    //Group Index
+    ctx.r4.u32 = 0;
+    //Cell index
+    ctx.r5.u32 = 0;
+    __imp__sub_82E562C8(ctx, base);
+}
+
+
+bool Test()
+{
+    return Config::Test;
+}
+
+//PPC_FUNC_IMPL(__imp__sub_82E53718);
+//PPC_FUNC(sub_82E53718)
+//{
+//    //auto alignment = (be<uint32_t>*)(base + PPC_LOAD_U32(ctx.r3.u32 + 164));
+//    //auto groupId2 = (be<uint32_t>*)(base + PPC_LOAD_U32(ctx.r3.u32 + 168));
+//    //auto e = alignment;
+//    //*alignment = 3;
+//}
+//PPC_FUNC_IMPL(__imp__sub_82E53760);
+//PPC_FUNC(sub_82E53760)
+//{
+//    ctx.r3.s32 = 0.2f;
+//    return;
+//}

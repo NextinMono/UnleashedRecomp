@@ -1105,3 +1105,10 @@ registers = ["r3"]
 name = "DisableBoostFilterMidAsmHook"
 address = 0x82B48C9C
 registers = ["r11"]
+
+[[midasm_hook]]
+name = "Test"
+address = 0x82540B34
+jump_address_on_true = 0x82540B5C
+jump_address_on_false = 0x82540B38
+

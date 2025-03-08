@@ -92,6 +92,11 @@ PPC_FUNC(sub_822C1130)
     if (Config::EnableStageCollisionDebugView)
         *SWA::SGlobals::ms_IsCollisionRender = true;
 
+    if (GetAsyncKeyState(VK_F9))
+    {
+        Config::Test = true;
+    }
+
     __imp__sub_822C1130(ctx, base);
 }
 
